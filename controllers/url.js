@@ -7,6 +7,7 @@ async function handleGenerateShortId(req, res) {
 
     if (!body.url) return res.status(400).json({ error: "url is required.." });
     var shortID = shortid(8);
+    console.log(req.user.id);
     await URL.create({
         shortid: shortID,
         redirectUrl: body.url,

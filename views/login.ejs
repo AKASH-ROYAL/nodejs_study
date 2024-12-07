@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script>
+
+    function redirectToSignUp(){
+
+      window.location.href = '/signup' ;
+    }
+  </script>
+</head>
+
+<body>
+  <button onclick="redirectToSignUp()" >  Signup</button>
+
+  <% if(locals.error){ %>
+    <p style="color: red;">
+      <%= locals.error%>
+    </p>
+    <% } %>
+      <h2>Login</h2>
+
+      <form action="/user/login" method="POST">
+        <label for="email"> Email: </label>
+        <input type="text" name="email">
+        <label for="password"> Password: </label>
+        <input type="text" name="password">
+        <button type="submit"> Login </button>
+      </form>
+</body>
+
+</html>

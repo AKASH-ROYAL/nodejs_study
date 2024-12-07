@@ -2,8 +2,8 @@
 const { getUser, setUser } = require('../services/auth')
 async function restrictToLoggedInUsersOnly(req, res, next) {
  
-     const token = req.cookies?.token;
- 
+     const value = req.headers['authorization'];
+ const token = value.split('Bearer ')[1];
     if (!token) {
         console.log('first  triggered...');
              return res.redirect('/login?error=Login to Explore...')

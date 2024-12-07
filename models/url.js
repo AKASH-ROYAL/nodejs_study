@@ -3,19 +3,15 @@ const mongoose = require('mongoose');
 
 const urlSchema = mongoose.Schema({
 
-    shortid: {
-        type: String,
+    shortid: {        type: String,
         required: true,
         unique: true
     },
-
     redirectUrl: {
         type: String,
         required: true
-    },
-    visitHistory: [{ timeStamp: { type: String } }], 
-    createdBy:{
-        type: mongoose.Types.ObjectId,
+    },    visitHistory: [{ timeStamp: { type: String } }], 
+    createdBy:{        type: mongoose.Types.ObjectId,
         ref:'User'
     }
 },

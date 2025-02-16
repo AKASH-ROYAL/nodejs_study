@@ -21,12 +21,13 @@ async function handleGenerateShortId(req, res) {
 async function handleRedirectUrl(req, res) {
 
     var id = req.params.id;
-
+console.log(' handleRedirectUrl id' , id);
     const entry = await URL.findOneAndUpdate({ shortid: id }, {
 
         $push: { visitHistory: { timeStamp: Date.now() } }
 
     });
+    console.log('entry.redirectUrl : ', entry)
 
 
     return res.status(301).redirect(entry.redirectUrl);

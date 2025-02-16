@@ -1,30 +1,49 @@
 
-const { getUser, setUser } = require('../services/auth')
-async function restrictToLoggedInUsersOnly(req, res, next) {
- 
-     const value = req.headers['authorization'];
- const token = value.split('Bearer ')[1];
-    if (!token) {
-        console.log('first  triggered...');
-             return res.redirect('/login?error=Login to Explore...')
-}
-    var user = getUser(token);
+const { getUser, setUser } = require('../services/auth');
 
-    if (!user) {
-        console.log('second  triggered...');
-   return res.redirect('/login?error=Login to Explore...');    
 
-    };
+
+async function checkUserAuthentication(req, res, next) {
+    req.user = null;
+    // const value = req.headers['authorization'];
+    // const value = req.headers['authorization'];
+      
+    //  if (!value || !value.startsWith("Bearer ")) return next();
+
+    // const token = value.split('Bearer ')[1];
+    // console.log("token",token)
+    var token = req.cookies?.token;
+    if(!token) return next();
+
+    const user = getUser(token);
 
     req.user = user;
-    // console.log('end of restrictToLoggedInUsersOnly..');
 
-    next();
-
+    return next();
 
 
 
 }
+
+function restrictToRoles(role = []) {
+console.log('restrictToRoles initiated...');
+    return function (req, res, next) {
+        if (!req.user) return res.redirect('/login');
+// console.log('req.user.role : ' , req.user.role);
+// console.log('req.user.role : ' , req.user.id);
+// console.log('req.user.role : ' , req.user.email);
+        if (!role.includes(req.user.role)) {
+            return res.end("UnAuthorized");
+
+        }
+        return next();
+
+
+    }
+
+}
+
 module.exports = {
-    restrictToLoggedInUsersOnly
+    checkUserAuthentication,
+    restrictToRoles
 };

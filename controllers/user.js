@@ -13,6 +13,7 @@ async function handleCreateNewUser(req, res) {
         name: name,
         email: email,
         password: password,
+        
     });
 
     return res.redirect('/login');
@@ -31,9 +32,9 @@ async function handleLogin(req, res) {
 
     var token= setUser( user);
 
-    // res.cookie('token', token);
-
-    return res.json({token});
+    res.cookie('token', token);
+return res.redirect('/');
+    // return res.json({token});
 }
 
 
